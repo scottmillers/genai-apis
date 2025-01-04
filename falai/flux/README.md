@@ -12,16 +12,30 @@ There are two parts.
 
 ## Prerequisites:
 - Sign up on [Fal.ai]((https://fal.ai/) ) using your GitHub account. You will need to buy credit. I purchased $20 in credit.
-- Follow the instructions to setup the [Fal api client for python](https://fal.ai/models/fal-ai/flux-pro/v1.1-ultra/api?platform=python)
-
-
-## Use the flux-pro/v1.1-ultra to generate an image
-
-1. 
 
 
 
-## Setup
+## How to use the flux-pro/v1.1-ultra model to generate an image from text
+
+1. Make sure you export your flux API key
+   ```
+      export FAL_KEY="YOUR_API_KEY"
+   ```
+2. Setup your python virtual environment called `myvenv`
+   ```
+   ./install.sh
+   ```
+3. Generate the first image
+   ```
+   run-flux-pro.sh
+   ```
+4. Edit the run-flux-pro.sh file to generate a new image
+   ```
+
+
+## Use the fal-ai/flux-lora model to generate a image trained with a lora
+
+How a LoRA to train the flux model on your selfies
 
 1. Take photos of 15-20 selfie in various angles 
 
@@ -33,24 +47,43 @@ There are two parts.
 
 5. Add the images to the [fal-ai/flux-lora-fast-training model](https://fal.ai/models/fal-ai/flux-lora-fast-training)
 
-6. Set the Trigger word as your name scottmiller
+6. Set the Trigger word as your name. My Trigger word is `scottmiller`
+
 7. Start the training 
+
 8. Once the training is done click 'run inference'
  
 9. Specify the prompt that includes the keyword of your name
-   ![alt text](images/flux-run.png)
 
+How to use your selfies to generate new images
 
-## Prompt Examples
+1. Get the Loral URL
 
+2. Edit `run-flux-lora.sh` and modify the lora_url to be your LoRA url
+   ```  
+      # Modify this to be your own loRA model URL
+      lora_url="https://v3.fal.media/files/rabbit/BD8qvVJ8qu53cC77uzAr7_pytorch_lora_weights.safetensors"
 
-- `scottmiller as a Battle Angel in a utopia
-full body shot will zoom out close up`
-- `scottmiller as a battle warrior in a utopia full body shot`
+      # Modify this to be the text file of your input prompt
+      input_text=$(cat flux-io/me-jedi.txt)
+      
+      # Modify this to be the location of your image file
+      output_filename="flux-io/me-jedi.jpg"
+   ```
+
+3. Verify that your input prompt has your Trigger keyword included. For example, my trigger keyword is `scottmillers`
+
+4. Run the model
+   ```
+   run-flux-lora.sh
+   ```
 
 
 
 ## Reference
 
-This [Youtube video form Julia McCoy](https://www.youtube.com/watch?v=lcNb-0XspwU&t=360s) is the basis this work.
+- Follow the instructions to setup the [Fal api client for python](https://fal.ai/models/fal-ai/flux-pro/v1.1-ultra/api?platform=python)
+
+- This [Youtube video form Julia McCoy](https://www.youtube.com/watch?v=lcNb-0XspwU&t=360s) is the basis this work.
+
 

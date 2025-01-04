@@ -8,13 +8,14 @@ def on_queue_update(update):
         for log in update.logs:
            print(log["message"])
 
-def generate_image(model, input_prompt):
+def generate_image(model, model_arguments):
     # Subscribe to the FAL AI service
+
+   
+
     result = fal_client.subscribe(
         model,
-        arguments={
-            "prompt": input_prompt
-        },
+        arguments=model_arguments,
         with_logs=True,
         on_queue_update=on_queue_update,
     )
@@ -36,8 +37,8 @@ def download_image(image_url, file_name):
 if len(sys.argv) > 3:
     model = sys.argv[1]
     print(f"Model: {model}")
-    input_prompt = sys.argv[2]
-    print(f"Input prompt: {input_prompt}")
+    model_arguments_json = sys.argv[2]
+    print(f"Model Arguments JSON: {model_arguments_json}")
     output_image = sys.argv[3]
     print(f"Output image: {output_image}")
 else:
@@ -45,10 +46,11 @@ else:
     sys.exit(1)
 
 
-#prompt = "A elegant female ballet dancer in a white tutu and pointe shoes, performing an arabesque pose in a grand theater. Her hair is in a perfect bun, and her makeup is stage-ready. She’s gracefully holding a delicate, swan-shaped card with “/u/PirouettePrincess” written in flowing script. The rich red velvet curtains and ornate gold decorations of the theater create a luxurious backdrop."
-#filename = "downloaded_image.jpg"
+# Convert the JSON string to a python dictionary
+model_arguments = json.loads(model_arguments_json)
 
-result = generate_image(model, input_prompt)
+# Call the API function with the model and model arguments
+result = generate_image(model, model_arguments)
 
 print(json.dumps(result, indent=4))
 

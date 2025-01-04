@@ -1,4 +1,4 @@
-!/bin/zsh
+#!/bin/bash
 
 # Create a virtual environment
 python3 -m venv myvenv
